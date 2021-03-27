@@ -1,4 +1,50 @@
-h1{
-    display: flex;
-    justify-content: center;
+$bg-color:lightsteelblue;
+body{
+    background-color: lighten($color: $bg-color, $amount: 8%)
+}
+#calculator{
+    background-color: black;
+    border: 10px double gray;
+    height: 50%;
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 0;
+}
+#display{
+    display: block;
+    color: white;
+    height: 18vh;
+    width: 100%;
+    margin-left: 0px;
+    text-align: right;
+    font-size: 10vh;
+    font-family: digital;
+    overflow-x: hidden;
+}
+#buttons{
+    width: 100%;
+    padding-left: auto;
+}
+.cols{
+    height: 6vh;
+    padding: 0;
+}
+.btns{
+    height: 100%;
+    width: 100%;
+    background-color: gray;
+    color: white;
+    font-weight: bolder;
+    font-size: larger;
+    font-family: digital;
+    border: 2px double darkgray;
+}
+#signed{
+    position: absolute;
+    top: 77%;
+    left: 50%;
+    transform: translateX(-50%);
 }
