@@ -5,22 +5,19 @@ body{
 #calculator{
     background-color: black;
     border: 10px double gray;
-    height: 50%;
-    width: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 0 0;
 }
-#display{
+#full-display{
     display: block;
     color: white;
     height: 18vh;
     width: 100%;
     margin-left: 0px;
     text-align: right;
-    font-size: 10vh;
     font-family: digital;
     overflow-x: hidden;
 }
@@ -35,16 +32,32 @@ body{
 .btns{
     height: 100%;
     width: 100%;
-    background-color: gray;
+    background-color: rgb(68, 64, 64);
     color: white;
     font-weight: bolder;
     font-size: larger;
     font-family: digital;
     border: 2px double darkgray;
+    &:active{
+        box-shadow: inset 0px 0px 5px black;
+        border-radius: 5%;
+        border: 2px double black;
+    };
+    &:focus{
+        outline:0;
+    }
 }
 #signed{
     position: absolute;
     top: 77%;
     left: 50%;
     transform: translateX(-50%);
+}
+#expression{
+    height: 6vh;
+    font-size: 4vh;
+}
+#display{
+    height: 12vh;
+    font-size: 8vh;
 }
