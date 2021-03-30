@@ -20,6 +20,7 @@ body{
     text-align: right;
     font-family: digital;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 #buttons{
     width: 100%;
@@ -60,4 +61,8 @@ body{
 #display{
     height: 12vh;
     font-size: 8vh;
+}
+.error{
+    // outline: 5px solid red;
+    border: 5px solid red;
 }

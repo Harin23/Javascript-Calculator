@@ -38,12 +38,13 @@ class Pad extends React.Component{
 }
 
 const DEFUALT_STATE={
-    display:" ",
+    display:"",
     current: "0",
     decimal: false,
     evaluated: false,
     clearCurr: true
 };
+const operator= ["+", "-", "*", "/"];
 
 class App extends React.Component{
     constructor(props){
@@ -65,11 +66,27 @@ class App extends React.Component{
         if(input=="AC"){
             this.resetState()
         }else if(input=="="){
+            if(operator.indexOf(this.state.current)!=-1||eval(this.state.display)==undefined){
+                let display=document.getElementById("full-display");
+                display.classList.add("error")
+                setTimeout(()=>{
+                    display.classList.remove("error")
+                },1000)
+            }else{
+                this.setState(state=>({
+                    evaluated: true,
+                    current: eval(state.display),
+                    display: state.display + input + eval(state.display)
+                }));
+            }
+ 
+        }else if(this.state.evaluated==true && operator.indexOf(input)!=-1){
             this.setState(state=>({
-                evaluated: true,
-                current: eval(state.display),
-                display: state.display + input + eval(state.display)
+                ...DEFUALT_STATE,
+                display: state.current + input,
+                current: input
             }));
+            // this.current(input);
         }else if(this.state.evaluated==true){
             this.resetState();
             this.current(input);
@@ -78,31 +95,54 @@ class App extends React.Component{
         }
     }
     current(input){
-        const operator= ["+", "-", "*", "/"];
         if(input=="."&&this.state.decimal==false){
-            this.setState(state=>({
-                display: state.display + input,
-                current: state.current + input,
-                decimal: true,
-                clearCurr: false
-            }));
+            if(this.state.clearCurr==true){
+                this.setState(state=>({
+                    display: state.display+"0"+input,
+                    current: "0"+input,
+                    decimal: true,
+                    clearCurr: false
+                }));
+            }else{
+                this.setState(state=>({
+                    display: state.display + input,
+                    current: state.current + input,
+                    decimal: true,
+                    clearCurr: false
+                }));
+            }
         }else if(input!="."&&operator.indexOf(input)!=-1){
             this.setState(state=>({
-                display: state.display + input,
+                display: (state.display + input).replace(/([*+/]+[-]*){2,}/g, input),
                 decimal: false,
                 current: input,
                 clearCurr: true
             }));
-        }else if(input!="."&&this.state.clearCurr==true){
-            this.setState(state=>({
-                display: state.display + input,
-                current: input
-            }));
         }else if(input!="."){
-            this.setState(state=>({
-                display: state.display + input,
-                current: state.current + input
-            }));
+            if(this.state.clearCurr==true){
+                this.setState(state=>({
+                    display: state.display + input,
+                    current: input,
+                    clearCurr: false
+                }));
+            }else{
+                if(this.state.current.match(/^(0)+/g)==null||this.state.current.indexOf(".")!=-1){
+                    this.setState(state=>({
+                        display: state.display + input,
+                        current: state.current + input
+                    }));
+                }else if(this.state.current.match(/^(0)+/g)!=null||input.match(/[1-9]/g)!=null){
+                    this.setState(state=>({
+                        display: state.display.slice(0,state.display.length-1)+input,
+                        current: input
+                    }));
+                }else{
+                    this.setState(state=>({
+                        display: state.display.slice(0,state.display.length-1)+"0",
+                        current: "0"
+                    }));
+                }
+            }
         }
     }
     render(){
